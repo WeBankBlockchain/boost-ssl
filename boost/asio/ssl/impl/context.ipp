@@ -306,6 +306,18 @@ context::context(context::method m)
     break;
 #endif // (OPENSSL_VERSION_NUMBER >= 0x10100000L)
 
+#ifndef OPENSSL_NO_GMTLS
+  case context::gmtls:
+    handle_ = ::SSL_CTX_new(::GMTLS_method());
+    break;
+  case context::gmtls_client:
+    handle_ = ::SSL_CTX_new(::GMTLS_server_method());
+    break;
+  case context::gmtls_server:
+    handle_ = ::SSL_CTX_new(::GMTLS_client_method());
+    break;
+#endif
+
   default:
     handle_ = ::SSL_CTX_new(0);
     break;
