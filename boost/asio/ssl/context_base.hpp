@@ -93,7 +93,12 @@ public:
     tls_client,
 
     /// TLS server.
-    tls_server
+    tls_server,
+
+    // GMTLS
+    gmtls,
+    gmtls_client,
+    gmtls_server
   };
 
   /// Bitmask type for SSL options.
