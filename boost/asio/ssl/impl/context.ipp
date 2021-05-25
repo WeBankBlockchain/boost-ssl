@@ -828,6 +828,27 @@ BOOST_ASIO_SYNC_OP_VOID context::use_private_key(
           bio.p, 0, callback,
           cb_userdata);
       break;
+    case context_base::engine:
+    {
+      ENGINE *e;
+      char key_id[32] = {0};
+
+      if (private_key.size() > sizeof (key_id))
+      {
+        ec = boost::asio::error::invalid_argument;
+        BOOST_ASIO_SYNC_OP_VOID_RETURN(ec);
+      }
+      memcpy(key_id, private_key.data(), private_key.size());
+
+      e = ENGINE_get_pkey_meth_engine(EVP_PKEY_SM2);
+      if (!e)
+      {
+        ec = boost::asio::error::invalid_argument;
+        BOOST_ASIO_SYNC_OP_VOID_RETURN(ec);
+      }
+      evp_private_key.p = ::ENGINE_load_private_key(e, key_id, NULL, NULL);
+      break;
+    }
     default:
       {
         ec = boost::asio::error::invalid_argument;

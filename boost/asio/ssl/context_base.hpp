@@ -158,7 +158,10 @@ public:
     asn1,
 
     /// PEM file.
-    pem
+    pem,
+
+    // ENGINE key.
+    engine
   };
 
 #if !defined(GENERATING_DOCUMENTATION)
